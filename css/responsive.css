@@ -1,0 +1,123 @@
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 250px;
+    }
+    .item-wide {
+        grid-column: span 1; /* Disallow wide grids on mid-size screens */
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --font-size-hero: 4rem;
+    }
+
+    .container {
+        padding: 60px 0;
+    }
+
+    /* 1. Monogram Gatekeeper Mobile Scale */
+    .monogram-letter {
+        font-size: 3.5rem;
+    }
+    .monogram-divider {
+        height: 60px;
+    }
+
+    /* 2. Physical Envelope Dimensions for Handheld views */
+    .envelope-wrapper {
+        width: 90vw;
+        height: calc(90vw * 0.7); /* Maintain proportions */
+    }
+    
+    .flap-outer, .flap-inner {
+        border-left-width: 45vw;
+        border-right-width: 45vw;
+        border-top-width: calc(45vw * 0.7);
+        border-bottom-width: calc(45vw * 0.7);
+    }
+    
+    .wax-seal-container {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .seal-monogram {
+        font-size: 0.9rem;
+    }
+
+    /* 3. Card Typography */
+    .card-names {
+        font-size: 2.2rem;
+    }
+    .card-divider-monogram {
+        margin: 5px 0;
+    }
+    .card-divider-monogram::before, .card-divider-monogram::after {
+        width: 20px;
+    }
+    .card-divider-monogram::before { left: -30px; }
+    .card-divider-monogram::after { right: -30px; }
+
+    /* 4. Timeline Mobile Layout */
+    .timeline-line {
+        left: 20px;
+    }
+    .timeline-item {
+        padding-right: 0;
+        padding-left: 40px;
+        justify-content: flex-start;
+    }
+    .timeline-item.right-item {
+        padding-left: 40px;
+    }
+    .timeline-dot {
+        left: 20px;
+    }
+    .timeline-card {
+        margin: 0;
+        max-width: 100%;
+    }
+
+    /* 5. Countdown Grid */
+    .countdown-grid {
+        gap: 15px;
+    }
+    .countdown-box {
+        width: 80px;
+        height: 80px;
+    }
+    .countdown-num {
+        font-size: 1.8rem;
+    }
+    .countdown-label {
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+    }
+
+    /* 6. Form Mobile */
+    .form-row {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .rsvp-form-container {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 4rem;
+    }
+    .section-title {
+        font-size: 2.5rem;
+    }
+    .card-names {
+        font-size: 1.8rem;
+    }
+}

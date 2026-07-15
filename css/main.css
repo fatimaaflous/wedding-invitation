@@ -1,0 +1,1172 @@
+:root {
+    --bg-dark: #1F050E;
+    --bg-accent: #3A0B19;
+    --velvet-burgundy: #6A1B29; /* Matches rich reference image shade */
+    --ivory: #FAF8F5;
+    --gold-foil: #CFA343;
+    --gold-soft: #EAD097;
+    --brown-rich: #2C1A17;
+    --text-primary: #F7F4EB;
+    --text-muted: rgba(247, 244, 235, 0.7);
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-handwritten: 'Great Vibes', cursive;
+    --font-sans: 'Poppins', sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+}
+
+/* Rain Canvas Layer Setup */
+#petals-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999; /* Float over EVERYTHING */
+    pointer-events: none; /* Allows scrolling and clicking right through the falling petals */
+}
+
+.luxury-bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.12;
+    background-image: radial-gradient(circle, transparent 30%, #000 130%),
+                      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* MUSIC CONTROLLER */
+.btn-audio-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: rgba(31, 5, 14, 0.95);
+    border: 1px solid var(--gold-foil);
+    color: var(--gold-soft);
+    font-size: 1.3rem;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-audio-toggle:hover {
+    transform: scale(1.05);
+    background: var(--gold-foil);
+    color: var(--bg-dark);
+}
+
+/* ENVELOPE SCREEN */
+/* ==========================================================================
+   ULTRA-LUXURY ENVELOPE SCREEN & BACKDROP
+   ========================================================================== */
+/* ==========================================================================
+   ULTRA-LUXURY ENVELOPE REDESIGN (Linen Texture, Ribbon & Gold Filigree)
+   ========================================================================== */
+
+/* Luxurious background: Warm alabaster marble / fine art paper texture */
+/* ==========================================================================
+   SPARKLES LAYER & CONTAINER
+   ========================================================================== */
+.sparkle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2; /* Sits gently behind the envelope but above background vignettes */
+    overflow: hidden;
+}
+
+.sparkle-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle, #FFF 0%, rgba(243,229,171,0.9) 50%, rgba(212,175,55,0) 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(253, 222, 107, 0.8);
+    animation: drift-and-fade 12s linear infinite;
+}
+
+@keyframes drift-and-fade {
+    0% {
+        transform: translateY(-10px) translateX(0) rotate(0deg) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(105vh) translateX(40px) rotate(360deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* ==========================================================================
+   LUXURY BACKDROP UPGRADE (Filling the "Void")
+   ========================================================================== */
+.envelope-scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    
+    /* Fine-grain luxurious art paper texture overlay with a warm glow right under the envelope */
+    background: 
+        radial-gradient(circle at center, rgba(253, 251, 247, 0.95) 0%, rgba(234, 227, 210, 0.98) 55%, rgba(204, 191, 168, 1) 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.08' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.15'/%3E%3C/svg%3E");
+    background-blend-mode: multiply;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   SYMMETRICAL GOLD FLAP LINES
+   ========================================================================== */
+
+/* ==========================================================================
+   SYMMETRICAL ENVELOPE FLAP LINES (FIXED)
+   ========================================================================== */
+.envelope-wrapper {
+    position: relative;
+    width: 540px;
+    height: 370px;
+    max-width: 90vw;
+    margin: 0 auto;
+}
+
+.flap-lines-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+    overflow: hidden; /* Keeps the diagonal lines inside the envelope boundary */
+    border-radius: 8px;
+}
+
+.flap-line {
+    position: absolute;
+    top: 0;
+    height: 1.5px; /* Clean, thin luxury line */
+    background: linear-gradient(90deg, #AA7C11, #F3E5AB 50%, #AA7C11);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    width: 60%; /* Slightly longer to guarantee overlap under the seal */
+}
+
+/* Left diagonal line: starts top-left, points down-right */
+.flap-line.line-left {
+    left: -1px; /* Slight offset to align perfectly with the corner */
+    transform-origin: top left;
+    transform: rotate(34.2deg);
+}
+
+/* Right diagonal line: starts top-right, points down-left */
+.flap-line.line-right {
+    right: -1px; /* Slight offset to align perfectly with the corner */
+    transform-origin: top right;
+    transform: rotate(-34.2deg);
+}
+
+/* Ensure envelope body is styled cleanly to wrap the ribbon/seams */
+.envelope-body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--velvet-burgundy);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 4px 4px;
+    border-radius: 8px;
+    box-shadow:
+        0 15px 35px rgba(31, 5, 14, 0.3),
+        0 35px 80px rgba(0, 0, 0, 0.25),
+        inset 0 1px 2px rgba(255, 255, 255, 0.15);
+    transform-style: preserve-3d;
+}
+
+/* Luxury Envelope Wrapper with extreme depth perspective */
+.envelope-wrapper {
+    position: relative;
+    width: 580px;
+    height: 400px;
+    perspective: 2000px;
+    cursor: pointer;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.envelope-wrapper:hover {
+    transform: translateY(-12px) rotateX(4deg) scale(1.03);
+}
+
+/* Linen-textured Heavy Burgundy Cardstock */
+
+
+/* Premium Vertical Silk Ribbon */
+.silk-ribbon {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 100%;
+    /* Soft champagne gold silk color with running folds */
+    background: linear-gradient(90deg, 
+        #C5A059 0%, 
+        #EAD097 25%, 
+        #D8B872 50%, 
+        #F3E2B8 75%, 
+        #C5A059 100%);
+    box-shadow: 
+        -3px 0 10px rgba(0,0,0,0.25), 
+        3px 0 10px rgba(0,0,0,0.25);
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.95;
+}
+
+/* Gold Corner Filigrees flanking the envelope body */
+.gold-corner-ornament {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    border: 2px solid var(--gold-foil);
+    z-index: 12;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+.top-left-gold {
+    top: 15px;
+    left: 15px;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 4px 0 0 0;
+}
+.top-left-gold::after {
+    content: '⚜';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 1rem;
+    color: var(--gold-soft);
+}
+
+.bottom-right-gold {
+    bottom: 15px;
+    right: 15px;
+    border-left: none;
+    border-top: none;
+    border-radius: 0 0 4px 0;
+}
+.bottom-right-gold::after {
+    content: '⚜';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 1rem;
+    color: var(--gold-soft);
+}
+
+/* Diagonal seams showing envelope is closed */
+.envelope-folds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(28deg, rgba(0, 0, 0, 0.4) 0%, transparent 55%),
+        linear-gradient(-28deg, rgba(0, 0, 0, 0.4) 0%, transparent 55%);
+    clip-path: polygon(0 100%, 50% 50%, 100% 100%);
+    z-index: 3;
+}
+
+/* Flap pointing downward */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: top center;
+    z-index: 4;
+    transform-style: preserve-3d;
+}
+
+/* Rabat principal bordeaux */
+
+
+/* Liseré doré double et parfaitement symétrique sur les deux côtés du triangle */
+
+
+/* Exquisite metallic wax seal with natural poured shape */
+.wax-seal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -35%);
+    width: 95px;
+    height: 95px;
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wax-seal-container:hover {
+    transform: translate(-50%, -35%) scale(1.08) rotate(3deg);
+}
+
+.wax-seal {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 30%, #F5DCA3 0%, #C49746 45%, #7D5B1E 95%);
+    border-radius: 52% 48% 51% 49% / 49% 51% 48% 52%; /* Imperfect hand-poured circle */
+    box-shadow: 
+        0 10px 25px rgba(0,0,0,0.4),
+        inset -4px -4px 10px rgba(0,0,0,0.5),
+        inset 4px 4px 8px rgba(255,255,255,0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgba(196, 151, 70, 0.4);
+}
+
+.seal-monogram {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #FFFDF9;
+    letter-spacing: 2px;
+    text-shadow: -1px -1px 2px rgba(0,0,0,0.6), 1px 1px 1px rgba(255,255,255,0.3);
+}
+
+/* Elegant instructions below the envelope */
+.click-instruction {
+    margin-top: 45px;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-style: italic;
+    color: #5C4F4E;
+    letter-spacing: 1.5px;
+    opacity: 0.85;
+    animation: breath 3s ease-in-out infinite;
+}
+
+@keyframes breath {
+    0%, 100% { opacity: 0.6; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-2px); }
+}
+
+/* Elegant serif heading above envelope */
+
+
+/* Premium Envelope Container with 3D Depth */
+.envelope-wrapper {
+    position: relative;
+    width: 580px;
+    height: 400px;
+    perspective: 2000px;
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.envelope-wrapper:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+/* Main physical cardstock body of the envelope */
+.envelope-body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--velvet-burgundy);
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+    border-radius: 12px;
+    /* Multi-layered soft ambient drop shadows to mimic actual table surface contact */
+    box-shadow: 
+        0 15px 35px rgba(31, 5, 14, 0.3),
+        0 30px 60px rgba(0, 0, 0, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    transform-style: preserve-3d;
+}
+
+/* Realistic folds representing the pocket structure */
+.envelope-folds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Left and Right overlapping flaps */
+    background: 
+        linear-gradient(28deg, rgba(0, 0, 0, 0.35) 0%, transparent 50%),
+        linear-gradient(-28deg, rgba(0, 0, 0, 0.35) 0%, transparent 50%);
+    clip-path: polygon(0 100%, 50% 50%, 100% 100%);
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Premium Folding Flap with delicate hand-drawn Gold Foil Border Trim */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: top center;
+    z-index: 5;
+    transform-style: preserve-3d;
+}
+
+/* Rabat principal bordeaux */
+/* ==========================================================================
+   SUPER-ROBUST FLAP WITH SYMMETRICAL BORDERS
+   ========================================================================== */
+
+/* ==========================================================================
+   ROBUST SIMPLIFIED FLAP & BORDERS (FIXED)
+   ========================================================================== */
+
+/* 1. Le Rabat principal (Bordeaux) - Coupe un triangle parfait */
+.flap-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--velvet-burgundy);
+    background-image: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%);
+    clip-path: polygon(0 0, 100% 0, 50% 55%);
+    filter: drop-shadow(0 10px 8px rgba(0,0,0,0.3));
+    z-index: 1;
+}
+
+/* 2. Nouveau système de lignes dorées (indépendant du clip-path bordeaux) */
+.envelope-flap::before,
+.envelope-flap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 55%; /* Aligné exactement avec la hauteur du triangle (55%) */
+    z-index: 2; /* S'affiche par-dessus le rabat bordeaux */
+    pointer-events: none;
+}
+
+/* LIGNE DIAGONALE GAUCHE */
+.envelope-flap::before {
+    left: 0;
+    background: linear-gradient(135deg, #AA7C11, #F3E5AB 50%, #AA7C11);
+    /* Découpe une fine bande diagonale parfaite de 1.5px d'épaisseur */
+    clip-path: polygon(
+        0 0, 
+        100% 100%, 
+        100% calc(100% - 2.5px), 
+        0 0, 
+        1.5px 0, 
+        100% calc(100% - 1px)
+    );
+}
+
+/* LIGNE DIAGONALE DROITE */
+.envelope-flap::after {
+    right: 0;
+    background: linear-gradient(225deg, #AA7C11, #F3E5AB 50%, #AA7C11);
+    /* Découpe une fine bande diagonale parfaite de 1.5px d'épaisseur */
+    clip-path: polygon(
+        100% 0, 
+        0 100%, 
+        0 calc(100% - 2.5px), 
+        100% 0, 
+        calc(100% - 1.5px) 0, 
+        0 calc(100% - 1px)
+    );
+}
+
+/* Gold line trace embedded directly into the flap edge */
+
+
+/* Gold Monogram Wax Seal with realistic embossing */
+.wax-seal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -35%);
+    width: 90px;
+    height: 90px;
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+.wax-seal {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 35% 35%, #F0D394 0%, #B88E3C 60%, #8A6424 100%);
+    border-radius: 50%;
+    box-shadow: 
+        0 8px 20px rgba(0,0,0,0.35),
+        inset -3px -3px 8px rgba(0,0,0,0.4),
+        inset 3px 3px 6px rgba(255,255,255,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Realistic imperfect melting border for the seal */
+.wax-seal::after {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border-radius: 52% 48% 49% 51% / 47% 53% 48% 52%; /* Organic uneven edge */
+    border: 3px solid rgba(184, 142, 60, 0.45);
+    pointer-events: none;
+}
+
+.seal-monogram {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #FFFDF9;
+    letter-spacing: 2px;
+    text-shadow: -1px -1px 1px rgba(0,0,0,0.4), 1px 1px 1px rgba(255,255,255,0.4);
+}
+
+/* Soft instruction text under envelope */
+.click-instruction {
+    margin-top: 40px;
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-style: italic;
+    color: #4A3E3D;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+.scene-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+/* ==========================================================================
+   ELEGANT HEADER TYPOGRAPHY (FIXED)
+   ========================================================================== */
+.scene-header {
+    text-align: center;
+    margin-bottom: 40px;
+    z-index: 10;
+}
+
+.header-names {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 200;
+    font-size: 2.0rem;
+    color: #3d2f1d; /* Elegant deep bronze-gold tone */
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Make the ampersand a beautiful cursive focal point */
+.header-names .ampersand {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3rem;
+    text-transform: none;
+    color: #aa7c11; /* Metallic gold gold color */
+    line-height: 0.8;
+    margin: 5px 0;
+}
+
+@media (min-width: 768px) {
+    .header-names {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+        font-size: 2.6rem;
+    }
+    .header-names .ampersand {
+        font-size: 3.5rem;
+        margin: 0;
+    }
+}
+
+/* Envelope Container */
+
+
+.envelope-body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--velvet-burgundy);
+    border-radius: 8px;
+    box-shadow: 0 25px 60px rgba(31, 5, 14, 0.35);
+    transform-style: preserve-3d;
+}
+
+/* Diagonal seams showing envelope is closed */
+.envelope-folds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(35deg, rgba(0,0,0,0.2) 0%, transparent 60%),
+                linear-gradient(-35deg, rgba(0,0,0,0.2) 0%, transparent 60%);
+    clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+    border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Flap pointing downward */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: top center;
+    z-index: 5;
+    transform-style: preserve-3d;
+}
+
+
+
+/* Gold Monogram Wax Seal */
+.wax-seal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    width: 80px;
+    height: 80px;
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wax-seal-container:hover {
+    transform: translate(-50%, -40%) scale(1.1);
+}
+
+.wax-seal {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ECC880, #A1792E);
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seal-monogram {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* White Floral corner bouquets to frame the envelope */
+/* ==========================================================================
+   ELEGANT GOLD LINE-ART CORNER FLORALS (No Pink Boxes!)
+   ========================================================================== */
+/* ==========================================================================
+   ELEGANT MATTED SCREEN BORDER (Replaces the broken florals)
+   ========================================================================== */
+.outer-gold-frame {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    border: 1px solid rgba(207, 163, 67, 0.35); /* Soft, delicate gold line */
+    pointer-events: none;
+    z-index: 10;
+}
+
+.outer-gold-frame::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 1px solid rgba(207, 163, 67, 0.15); /* Faint secondary accent line */
+}
+
+/* Let's make sure the corners of the envelope look incredibly clean */
+.gold-corner-ornament {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(207, 163, 67, 0.5);
+    z-index: 12;
+    pointer-events: none;
+}
+
+.top-left-gold {
+    top: 15px;
+    left: 15px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.bottom-right-gold {
+    bottom: 15px;
+    right: 15px;
+    border-left: none;
+    border-top: none;
+}
+
+
+/* ==========================================================================
+   SYMMETRICAL GOLD FLAP LINES
+   ========================================================================== */
+
+
+/* ==========================================================================
+   LUXURY BACKDROP UPGRADE (Filling the "Void")
+   ========================================================================== */
+.envelope-scene {
+    position: relative;
+    background-color: #f2ede4;
+    /* Soft radial glow right behind the envelope to make it pop */
+    background-image: 
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(242, 237, 228, 0.2) 70%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); /* Subtle paper grain texture */
+    overflow: hidden;
+}
+
+
+.click-instruction {
+    margin-top: 35px;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #2F241D;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   FULL SCREEN INVITATION MODAL CARD (NO OVERLAPS)
+   ========================================================================== */
+.card-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(18, 2, 8, 0.92);
+    backdrop-filter: blur(10px);
+}
+
+.invitation-card {
+    position: relative;
+    width: 92%;
+    max-width: 680px;
+    height: 82vh;
+    max-height: 850px;
+    background-color: var(--ivory);
+    color: var(--brown-rich);
+    border-radius: 4px;
+    padding: 50px 30px;
+    box-shadow: 0 35px 80px rgba(0,0,0,0.6);
+    z-index: 2;
+    transform: scale(0.92);
+    opacity: 0;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+.card-modal.show .invitation-card {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.card-border-gold {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    border: 1px solid var(--gold-foil);
+}
+
+.card-border-gold::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 2px solid var(--gold-soft);
+}
+
+.card-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+}
+
+.card-pretitle {
+    font-size: 0.8rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #7D6B58;
+    margin-bottom: 25px;
+}
+
+.card-names {
+    font-family: var(--font-handwritten);
+    font-size: 4.8rem;
+    margin: 0;
+    color: var(--bg-accent);
+}
+
+.card-subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: #7D6B58;
+    margin: 25px 0;
+}
+
+.card-divider-monogram {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    letter-spacing: 8px;
+    margin: 30px 0;
+    position: relative;
+    color: var(--gold-foil);
+}
+
+.card-divider-monogram::before, .card-divider-monogram::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 60px;
+    height: 1px;
+    background-color: var(--gold-foil);
+}
+.card-divider-monogram::before { left: -80px; }
+.card-divider-monogram::after { right: -80px; }
+
+.card-date-primary {
+    font-family: var(--font-serif);
+    font-size: 1.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--brown-rich);
+}
+
+.card-location-primary {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7D6B58;
+    margin-top: 15px;
+}
+
+.btn-unfold-invitation {
+    margin-top: 45px;
+    background: var(--bg-dark);
+    color: var(--ivory);
+    border: 1px solid var(--gold-foil);
+    padding: 15px 45px;
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.btn-unfold-invitation:hover {
+    background: var(--bg-accent);
+    color: var(--gold-soft);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* ==========================================================================
+   SCROLLABLE WEBPAGE
+   ========================================================================== */
+.scroll-experience {
+    position: relative;
+    width: 100%;
+    z-index: 10;
+    background: var(--bg-dark);
+}
+
+.hidden-experience {
+    display: none !important;
+}
+
+/* Hero Screen styling */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: radial-gradient(circle, rgba(90, 20, 35, 0.45) 0%, rgba(15, 2, 7, 0.98) 100%);
+    position: relative;
+}
+
+.hero-content {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.gold-accent-text {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    color: var(--gold-foil);
+}
+
+.hero-title {
+    font-family: var(--font-handwritten);
+    font-size: 7rem;
+    font-weight: 400;
+    margin: 20px 0;
+    color: var(--ivory);
+    text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero-divider {
+    width: 140px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-foil), transparent);
+    margin: 30px auto;
+}
+
+.hero-date {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.scroll-indicator span {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.scroll-line {
+    width: 1px;
+    height: 55px;
+    background: linear-gradient(to bottom, var(--gold-foil), transparent);
+}
+
+/* Main Section Title Styles */
+.section-header {
+    text-align: center;
+    margin-bottom: 75px;
+}
+
+.section-pretitle {
+    font-size: 0.8rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+}
+
+.section-title {
+    font-family: var(--font-serif);
+    font-size: 3.6rem;
+    font-weight: 300;
+    margin: 10px 0;
+    color: var(--ivory);
+}
+
+.gold-leaf-divider {
+    display: inline-block;
+    position: relative;
+    width: 90px;
+    height: 1px;
+    background-color: var(--gold-foil);
+    margin-top: 15px;
+}
+.gold-leaf-divider::before {
+    content: '⚜️';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+}
+
+/* Gallery layout */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 4 / 3;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.04);
+}
+
+.gallery-item.item-tall {
+    grid-row: span 2;
+    aspect-ratio: 3 / 4;
+}
+
+.gallery-item.item-wide {
+    grid-column: span 2;
+    aspect-ratio: 16 / 9;
+}
+
+/* Ritz Location Map Frame */
+.map-container-frame {
+    position: relative;
+    padding: 12px;
+    background-color: var(--bg-accent);
+    border-radius: 4px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+
+.map-gold-border {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 1px solid var(--gold-foil);
+    pointer-events: none;
+}
+
+.map-container-frame iframe {
+    filter: invert(90%) hue-rotate(180deg) contrast(110%);
+    display: block;
+}
+
+/* Footer layout */
+.luxury-footer {
+    padding: 120px 0 60px 0;
+    background-color: #0F0207;
+    text-align: center;
+    border-top: 1px solid rgba(207, 163, 67, 0.1);
+}
+
+.footer-monogram {
+    font-family: var(--font-handwritten);
+    font-size: 4.8rem;
+    color: var(--gold-soft);
+}
+
+.footer-thankyou {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 20px 0 50px 0;
+}
+
+.footer-gold-trim {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-foil), transparent);
+    margin: 0 auto 30px auto;
+}
+
+.footer-credits {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(247, 244, 235, 0.35);
+}
+
+/* Utilities */
+.hidden { display: none !important; }

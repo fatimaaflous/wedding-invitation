@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>The Wedding of  WISSAL ELAMRAOUI & ABDELMAJID GHAIATI </title>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Great+Vibes&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <div class="luxury-bg-overlay"></div>
+   
+    <canvas id="petals-canvas"></canvas>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="audio/romantic-piano.mp3" type="audio/mpeg">
+    </audio>
+    
+    <button id="audio-toggle" class="btn-audio-toggle" aria-label="Toggle music">
+        <span class="audio-icon">♫</span>
+    </button>
+
+    <main id="envelope-scene" class="envelope-scene">
+        <div class="sparkle-container" id="sparkle-container"></div>
+        
+        <div class="outer-gold-frame"></div>
+       
+        <div class="scene-header">
+    <!-- Clean, classic serif for the names, cursive style for the ampersand -->
+    <h1 class="header-names">
+        <span>Wissal Elamraoui</span>
+        <span class="ampersand">&</span>
+        <span>Abdelmajid Ghaiati</span>
+        
+    </h1>
+</div>
+
+        <div class="envelope-wrapper" id="envelope-interactive">
+           
+            <div class="gold-corner-ornament top-left-gold"></div>
+            <div class="gold-corner-ornament bottom-right-gold"></div>
+
+            <div class="envelope-body">
+                <div class="silk-ribbon"></div>
+
+                <div class="envelope-folds"></div>
+               
+                <div class="envelope-flap" id="envelope-flap">
+                    <div class="flap-front"></div>
+                </div>
+
+                <div class="wax-seal-container" id="wax-seal-btn">
+                    <div class="wax-seal">
+                        <div class="seal-monogram">A&W</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <p class="click-instruction">Click the envelope to open</p>
+    </main>
+
+    <div id="card-modal" class="card-modal hidden">
+        <div class="modal-backdrop"></div>
+        <article class="invitation-card" id="invitation-card">
+            <div class="card-border-gold"></div>
+            <div class="card-content">
+                <p class="card-pretitle">Together with their Families</p>
+                <h1 class="card-names">WISSAL ELAMRAOUI & ABDELMAJID GHAIATI</h1>
+                <p class="card-subtitle">Request the honor of your presence</p>
+                <div class="card-divider-monogram">W & A</div>
+                <p class="card-date-primary">Saturday, October 17, 2026</p>
+                <p class="card-location-primary">The Ritz Paris, Place Vendôme</p>
+               
+                <button id="unfold-trigger" class="btn-unfold-invitation">
+                    Begin Journey
+                </button>
+            </div>
+        </article>
+    </div>
+
+    <div id="scroll-experience" class="scroll-experience hidden-experience">
+       
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <span class="gold-accent-text">The Celebration of Love</span>
+                <h2 class="hero-title">WISSAL ELAMRAOUI & ABDELMAJID GHAIATI </h2>
+                <div class="hero-divider"></div>
+                <p class="hero-date">17.10.2026 — Paris, France</p>
+                <div class="scroll-indicator">
+                    <span>Scroll to view details</span>
+                    <div class="scroll-line"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="gallery-section container">
+            <div class="section-header">
+                <span class="section-pretitle">Capturing Memories</span>
+                <h2 class="section-title">Gallery</h2>
+                <div class="gold-leaf-divider"></div>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item item-tall">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600" alt="Wedding Moment">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=600" alt="Floral decor">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=80&w=600" alt="Parisian Walk">
+                </div>
+                <div class="gallery-item item-wide">
+                    <img src="https://images.unsplash.com/photo-1507504038482-7621c4b8e100?auto=format&fit=crop&q=80&w=1200" alt="Grand reception venue">
+                </div>
+            </div>
+        </section>
+
+        <section id="map-section" class="map-section container">
+            <div class="section-header">
+                <span class="section-pretitle">The Destination</span>
+                <h2 class="section-title">The Ritz Paris</h2>
+                <div class="gold-leaf-divider"></div>
+            </div>
+
+            <div class="map-container-frame">
+                <div class="map-gold-border"></div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.5658602568856!2d2.3270034768390784!3d48.86839170020146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e3dc0b4d4b1%3A0x6374945d7d3d1df2!2sRitz%20Paris!5e0!3m2!1sen!2sfr!4v1710000000000!5m2!1sen!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+        </section>
+
+        <footer class="luxury-footer">
+            <div class="footer-content">
+                <div class="footer-monogram">W & A</div>
+                <p class="footer-thankyou">Thank you for being part of our story.</p>
+                <div class="footer-gold-trim"></div>
+                <p class="footer-credits">© 2026 WISSAL ELAMRAOUI & ABDELMAJID GHAIATI .</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+    <script src="js/particles.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
